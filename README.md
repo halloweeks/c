@@ -40,7 +40,7 @@ int __strlen(const char *str) {
 
 ## memcpy
 ```c
-void _memcpy(void *dst, void *src, unsigned int size) {
+void __memcpy(void *dst, void *src, unsigned int size) {
 	while (size--) {
 		*(unsigned char*)dst++ = *(unsigned char*)src++;
 	}
