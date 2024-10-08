@@ -37,3 +37,12 @@ int __strlen(const char *str) {
 	return s - str;
 }
 ```
+
+## memcpy
+```c
+void _memcpy(void *dst, void *src, unsigned int size) {
+	while (size--) {
+		*(unsigned char*)dst++ = *(unsigned char*)src++;
+	}
+}
+```
