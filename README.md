@@ -1,3 +1,10 @@
+## typedef data type 
+```c
+typedef unsigned long size_t;
+typedef unsigned char bool;
+
+```
+
 ## strcpy
 
 ```c
@@ -75,4 +82,20 @@ unsigned char __strcmp(const char *str1, const char *str2) {
 ## Usage 
 ```c
 __strcmp(str1, str2);
+```
+
+## strline
+```c
+unsigned long __strline(const char *str) {
+	const char *s = str;
+	while (*s != '\n') {
+		s++;
+	}
+	return s - str;
+}
+```
+## usage
+
+```c
+__strline(str);
 ```
