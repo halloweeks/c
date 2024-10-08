@@ -46,3 +46,12 @@ void __memcpy(void *dst, void *src, unsigned long size) {
 	}
 }
 ```
+
+## memset
+```c
+void __memset(void *src, int ch, unsigned long size) {
+	while (size--) {
+		*(unsigned char*)src++ = (unsigned char)ch;
+	}
+}
+```
