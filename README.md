@@ -10,6 +10,7 @@ void __strcpy(char *dst, const char *src) {
 ```
 
 ## usage 
+```
 __strcpy(dest, str);
 ```
 
