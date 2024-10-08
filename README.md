@@ -9,6 +9,10 @@ void __strcpy(char *dst, const char *src) {
 }
 ```
 
+## usage 
+__strcpy(dest, str);
+```
+
 ## strcat
 ```c
 void __strcat(char *dst, const char *src) {
@@ -54,4 +58,20 @@ void __memset(void *src, int ch, unsigned long size) {
 		*(unsigned char*)src++ = (unsigned char)ch;
 	}
 }
+```
+
+## strcmp
+```c
+unsigned char __strcmp(const char *str1, const char *str2) {
+    while (*str1 && (*str1 == *str2)) {
+        str1++;
+        str2++;
+    }
+    return (*str1 == *str2);
+}
+```
+
+## Usage 
+```c
+__strcmp(str1, str2);
 ```
