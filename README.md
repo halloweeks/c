@@ -27,7 +27,7 @@ void __strcat(char *dst, const char *src) {
 ## strlen
 
 ```c
-int __strlen(const char *str) {
+unsigned long __strlen(const char *str) {
 	const char *s = str;
 	
 	while (*s) {
@@ -40,7 +40,7 @@ int __strlen(const char *str) {
 
 ## memcpy
 ```c
-void __memcpy(void *dst, void *src, unsigned int size) {
+void __memcpy(void *dst, void *src, unsigned long size) {
 	while (size--) {
 		*(unsigned char*)dst++ = *(unsigned char*)src++;
 	}
