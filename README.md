@@ -109,8 +109,7 @@ typedef struct {
 	uint32_t checksum;
 	uint32_t timestamp;
 	uint16_t datasize;
-	uint8_t flags; // bits for encryption, compression, method 
-	uint8_t *data;
+	uint8_t *raw_data;
 } packet;
 ```
 
