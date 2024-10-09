@@ -1,3 +1,12 @@
+/*
+output:
+Average execution time of code1: 0.183837 seconds
+Average execution time of code2: 0.070792 seconds
+Code2 is 61.49% efficient Code1
+code1 length: 104857600
+code2 length: 104857600
+*/
+
 #include <stdio.h>
 #include <stdint.h>
 #include <unistd.h>
