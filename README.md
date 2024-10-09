@@ -110,7 +110,7 @@ typedef struct {
 	uint32_t timestamp;
 	uint16_t datasize;
 	uint8_t *raw_data;
-} packet;
+} __attribute__((packed)) packet;
 ```
 
 ## unsigned int to ip
