@@ -99,3 +99,35 @@ unsigned long __strline(const char *str) {
 ```c
 __strline(str);
 ```
+
+## packet 
+```c
+typedef struct {
+	uint32_t src_addr;
+	uint32_t dst_addr;
+	uint32_t sequence;
+	uint32_t checksum;
+	uint32_t timestamp;
+	uint16_t datasize;
+	uint8_t flags; // bits for encryption, compression, method 
+	uint8_t *data;
+} packet;
+```
+
+## unsigned int to ip
+```c
+void to_ip(unsigned int num) {
+    // Extract each byte using bitwise shifts and masks
+    unsigned char byte1 = (num >> 24) & 0xFF;
+    unsigned char byte2 = (num >> 16) & 0xFF;
+    unsigned char byte3 = (num >> 8) & 0xFF;
+    unsigned char byte4 = num & 0xFF;
+    
+    // Print in dotted decimal format
+    printf("IPv4 Address: %d.%d.%d.%d\n", byte1, byte2, byte3, byte4);
+}
+
+to_ip(3232235777);
+```
+
+
