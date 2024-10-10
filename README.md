@@ -142,4 +142,27 @@ void to_ip(unsigned int num) {
 to_ip(3232235777);
 ```
 
+## ip to unsigned int
+```c
+unsigned int ip_to_int(unsigned char *addr) {
+    unsigned int ip = 0;
+    unsigned int octet = 0;
+
+    while (*addr) {
+        if (*addr == '.') {
+            ip = (ip << 8) | octet; // Shift left and add the current octet
+            octet = 0;              // Reset for the next octet
+        } else {
+            octet = octet * 10 + (*addr - '0'); // Build the current octet
+        }
+        addr++;
+    }
+    return (ip << 8) | octet; // Add the last octet
+}
+
+unsigned char ip[] = "127.0.0.1";
+unsigned int ip_as_int = ip_to_int(ip);
+	
+
+```
 
