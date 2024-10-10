@@ -106,11 +106,24 @@ typedef struct {
 	uint32_t src_addr;
 	uint32_t dst_addr;
 	uint32_t sequence;
-	uint32_t checksum;
 	uint32_t timestamp;
+	uint16_t checksum;
 	uint16_t datasize;
-	uint8_t *raw_data;
+	uint8_t raw_data[65536];
 } __attribute__((packed)) packet;
+
+unsigned int _get_packet_size(packet *pkt) {
+	return offsetof(packet, raw_data) + pkt->datasize;
+	
+}
+
+void _payload(packet *pkt, void *data, unsigned short size) {
+	pkt->datasize = size;
+	
+	for (unsigned short i = 0; i < size; i++) {
+		pkt->raw_data[i] = ((unsigned char *)data)[i];
+	}
+}
 ```
 
 ## unsigned int to ip
