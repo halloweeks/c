@@ -121,7 +121,7 @@ void _payload(packet *pkt, void *data, unsigned short size) {
 	pkt->datasize = size;
 	
 	for (unsigned short i = 0; i < size; i++) {
-		pkt->raw_data[i] = ((unsigned char *)data)[i];
+		pkt->raw_data[i] = ((unsigned char *)data)[i]; // *((unsigned char *)data + i);
 	}
 }
 ```
