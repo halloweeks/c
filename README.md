@@ -126,25 +126,15 @@ void _payload(packet *pkt, void *data, unsigned short size) {
 }
 ```
 
-## unsigned int to ip
+## network order address 
 ```c
-void to_ip(unsigned int num) {
-    // Extract each byte using bitwise shifts and masks
-    unsigned char byte1 = (num >> 24) & 0xFF;
-    unsigned char byte2 = (num >> 16) & 0xFF;
-    unsigned char byte3 = (num >> 8) & 0xFF;
-    unsigned char byte4 = num & 0xFF;
-    
-    // Print in dotted decimal format
-    printf("IPv4 Address: %d.%d.%d.%d\n", byte1, byte2, byte3, byte4);
+const char *to_ip(unsigned int num) {
+	static char ip[16];
+	snprintf(ip, sizeof(ip), "%d.%d.%d.%d", (num >> 0) & 0xFF, (num >> 8) & 0xFF, (num >> 16) & 0xFF, (num >> 24) & 0xFF);
+	return ip;
 }
 
-to_ip(3232235777);
-```
-
-## ip to unsigned int
-```c
-unsigned int ip_to_int(unsigned char *addr) {
+unsigned int ip_to(const char *addr) {
     unsigned int ip = 0;
     unsigned int octet = 0;
 
@@ -157,12 +147,21 @@ unsigned int ip_to_int(unsigned char *addr) {
         }
         addr++;
     }
-    return (ip << 8) | octet; // Add the last octet
+    
+    ip = (ip << 8) | octet;
+    
+    return (ip >> 24) | ((ip >> 8) & 0x0000FF00) | ((ip << 8) & 0x00FF0000) | (ip << 24);
 }
 
-unsigned char ip[] = "127.0.0.1";
-unsigned int ip_as_int = ip_to_int(ip);
-	
+```
 
+```c
+const char *ip = "127.0.0.1";
+
+unsigned int out = ip_to(ip);
+
+printf("network order: %u\n", out);
+
+printf("ip address: %s\n", to_ip(out));
 ```
 
