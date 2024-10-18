@@ -128,9 +128,10 @@ void _payload(packet *pkt, void *data, unsigned short size) {
 
 ## network order address 
 ```c
-const char *to_ip(unsigned int num) {
+const char *to_ip(unsigned int const char *to_ip(unsigned int num) {
 	static char ip[16];
-	snprintf(ip, sizeof(ip), "%d.%d.%d.%d", (num >> 0) & 0xFF, (num >> 8) & 0xFF, (num >> 16) & 0xFF, (num >> 24) & 0xFF);
+	// snprintf(ip, sizeof(ip), "%d.%d.%d.%d", (num >> 0) & 0xFF, (num >> 8) & 0xFF, (num >> 16) & 0xFF, (num >> 24) & 0xFF);
+	snprintf(ip, sizeof(ip), "%d.%d.%d.%d", (num >> 24) & 0xFF, (num >> 16) & 0xFF, (num >> 8) & 0xFF, (num >> 0) & 0xFF);
 	return ip;
 }
 
@@ -150,7 +151,8 @@ unsigned int ip_to(const char *addr) {
     
     ip = (ip << 8) | octet;
     
-    return (ip >> 24) | ((ip >> 8) & 0x0000FF00) | ((ip << 8) & 0x00FF0000) | (ip << 24);
+    return ip;
+    // return (ip >> 24) | ((ip >> 8) & 0x0000FF00) | ((ip << 8) & 0x00FF0000) | (ip << 24);
 }
 
 ```
