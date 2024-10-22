@@ -167,3 +167,36 @@ printf("network order: %u\n", out);
 printf("ip address: %s\n", to_ip(out));
 ```
 
+## recvline
+```c
+int recvline(int socket, char *buffer, unsigned int size) {
+	unsigned int i = 0;
+	
+	if (recv(socket, buffer, size, MSG_PEEK) < 0) {
+		return -1;
+	}
+	
+	for (int index = 0; index < size; index++) {
+		if (buffer[index] == '\n') {
+			i = index;
+			break;
+		}
+	}
+	
+	if (i == 0) return -1;
+	
+	return recv(socket, buffer, i, 0);
+}
+```
+## route 
+```c
+char route(const char *s1, const char *s2) {
+	if (s1 == NULL || s2 == NULL) return 0;
+	
+	return strncmp(s1 + 5, s2, strlen(s2)) == 0;
+}
+
+if (route(request, "/api/v1/login")) {
+        printf("login request!\n");
+}
+```
