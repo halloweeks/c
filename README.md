@@ -200,3 +200,36 @@ if (route(request, "/api/v1/login")) {
         printf("login request!\n");
 }
 ```
+
+
+## process vm read and write 
+```c
+#include <sys/uio.h>      // For struct iovec
+#include <sys/syscall.h>  // For syscall numbers
+#include <unistd.h>       // For syscall function
+#include <stdio.h>        // For printf (optional)
+
+ssize_t read_memory(pid_t pid, void *address, void *value, size_t size) {
+    struct iovec local[1];
+    struct iovec remote[1];
+    
+    local[0].iov_base = value;
+    local[0].iov_len = size;
+    remote[0].iov_base = address;
+    remote[0].iov_len = size;
+
+    return syscall(__NR_process_vm_readv, pid, local, 1, remote, 1, 0);
+}
+
+ssize_t write_memory(pid_t pid, void *address, void *value, size_t size) {
+    struct iovec local[1];
+    struct iovec remote[1];
+    
+    local[0].iov_base = value;
+    local[0].iov_len = size;
+    remote[0].iov_base = address;
+    remote[0].iov_len = size;
+
+    return syscall(__NR_process_vm_writev, pid, local, 1, remote, 1, 0);
+}
+```
