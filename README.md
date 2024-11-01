@@ -235,7 +235,7 @@ ssize_t write_memory(pid_t pid, void *address, void *value, size_t size) {
 ```
 
 ## path clean 
-
+```c
 #include <stdio.h>
 #include <string.h>
 
@@ -256,3 +256,4 @@ int main() {
     printf("Cleaned path: %s\n", clean_path(path));
     return 0;
 }
+```
