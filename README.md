@@ -233,3 +233,26 @@ ssize_t write_memory(pid_t pid, void *address, void *value, size_t size) {
     return syscall(__NR_process_vm_writev, pid, local, 1, remote, 1, 0);
 }
 ```
+
+## path clean 
+
+#include <stdio.h>
+#include <string.h>
+
+char* clean_path(char* path) {
+	if (*path != '.' && *path != '/') {
+		return path;
+	}
+	
+    while (*path == '.' || *path == '/') {
+        path++;  // Move the pointer forward
+    }
+    return path;
+}
+
+int main() {
+    char path[] = "../../../example/test.txt";
+    printf("Original path: %s\n", path);
+    printf("Cleaned path: %s\n", clean_path(path));
+    return 0;
+}
