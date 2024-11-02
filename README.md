@@ -257,3 +257,53 @@ int main() {
     return 0;
 }
 ```
+
+## create file 
+```
+#include <stdio.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <fcntl.h>   // For open()
+#include <errno.h>
+#include <unistd.h>  // For close()
+
+
+int create_file(const char *filepath) {
+	if (strlen(filepath) > 4096) {
+		return -1;
+	}
+	
+	char path[4096] = {0};
+	
+	for (int i = 0; filepath[i] != '\0'; i++) {
+        // Append the current character to the path
+        path[i] = filepath[i];
+        path[i + 1] = '\0'; // Ensure the path is null-terminated
+
+        if (filepath[i] == '/') {
+            // Create the directory
+            if (mkdir(path, 0777) == -1 && errno != EEXIST) {
+                perror("mkdir failed");
+            }
+        }
+    }
+    
+    // create the final file
+    return open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+}
+
+int main() {
+	int file = create_file("folder1/folder2/folder3/test.txt");
+	
+	if (file == -1) {
+		fprintf(stderr, "Can't create file!\n");
+		return 1;
+	}
+	
+	write(file, "Hello", 5);
+	
+	close(file);
+	return 0;
+}
+```
