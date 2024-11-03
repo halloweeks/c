@@ -307,3 +307,40 @@ int main() {
 	return 0;
 }
 ```
+
+## HexStr to byte array
+```c
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
+void hexToByte(char *hexString, unsigned char *byteArray) {
+	if (memcmp(hexString, "0x", 2) == 0) {
+		hexString += 2;
+	}
+	
+	for (int i = 0; i < 32; i++) {
+		sscanf(hexString, "%2hhx", byteArray + i);
+		hexString += 2;
+	}
+}
+
+//Example: 0x27DFBADBB537388ACDE27A7C5F3EBC3721AF0AE0A7602D2D7F8A16548F37D394
+
+int main() {
+	char hex[70];
+	uint8_t key[32];
+	
+	printf("[key]> ");
+	fgets(hex, sizeof(hex), stdin);
+	
+	hexToByte(hex, key);
+	
+	printf("key: ");
+	for (uint8_t i = 0; i < 32; i++) {
+		printf("%02X", key[i]);
+	}
+	printf("\n");
+	return 0;
+}
+```
