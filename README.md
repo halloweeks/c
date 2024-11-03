@@ -344,3 +344,9 @@ int main() {
 	return 0;
 }
 ```
+## base name 
+```c
+const char *base_name(const char *path) {
+	return strrchr(path, '/') != NULL ? last_slash + 1 : path;
+}
+```
