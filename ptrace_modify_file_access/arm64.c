@@ -121,6 +121,7 @@ long ptrace_write(pid_t pid, void *addr, void *data, size_t len) {
     return ptrace(PTRACE_POKEDATA, pid, addr, data_in_long);
 }*/
 
+/*
 long ptrace_write(pid_t pid, void *addr, void *data, size_t len) {
     size_t i;
     long *data_ptr = (long *)data;
@@ -137,6 +138,19 @@ long ptrace_write(pid_t pid, void *addr, void *data, size_t len) {
     }
 
     return 0;
+}
+*/
+bool ptrace_write(pid_t pid, long addr, void *value, size_t size) {
+    long *data = (long*) value;
+    
+    for (size_t offset = 0; offset < size; offset += sizeof(long)) {
+        // Write the next long-sized value to the target process's memory
+        if (ptrace(PTRACE_POKEDATA, pid, addr + offset, data[offset / sizeof(long)]) == -1) {
+            return false;  // Return false on failure
+        }
+    }
+    
+    return true;
 }
 
 void trace_syscalls(pid_t target_pid) {
@@ -198,11 +212,16 @@ void trace_syscalls(pid_t target_pid) {
 			
 			if (memcmp(filename, "/sdcard/pubgmobile/log.txt", 26) == 0) {
 				printf("nsize: %ld\n", namesize);
-				
+
+				if (ptrace_write(target_pid, regs.regs[1], name, namesize)) {
+					printf("memory injected!\n");
+				}
+
+				/*
 				if (ptrace_write(target_pid, (void*)regs.regs[1], name, namesize) == 0) {
 					printf("memory injected!\n");
 				}
-				
+				*/
 				read_string(target_pid, regs.regs[1], filename, 1024);
 				printf("file: %s\n", filename);
 				
