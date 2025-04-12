@@ -154,7 +154,7 @@ int main(int argc, const char *argv[]) {
 	
 	const char *process_name = "test"; // target process name 
 	const char *module_name = "test"; // module name 
-	const long offset = 0x47c0; // target function address 
+	const long offset = 0x4740; // target function address 
 	
 	pid_t target_pid = -1;
 	
@@ -176,7 +176,7 @@ int main(int argc, const char *argv[]) {
 	
 	printf("Tracing process %d\n", target_pid);
 	
-	// get base address 
+	// Get base address 
 	long long base = get_module_address(target_pid, module_name);
 	
 	if (base == -1) {
@@ -186,14 +186,23 @@ int main(int argc, const char *argv[]) {
 		return 1;
 	}
 	
+	// ...
 	printf("base: 0x%llx\n", base);
 	
 	printf("addr: 0x%llx\n", base + offset);
 	
+	
+	long orig = ptrace(PTRACE_PEEKTEXT, target_pid, base + offset, 0);
+	
+	if (ptrace(PTRACE_POKETEXT, target_pid, base + offset, (void*)0xd4200000) == -1) {
+		perror("ptrace_write failed");
+	}
+	
+	/*
 	// 2. Inject brk #0 shellcode
 	if (!ptrace_write2(target_pid, base + offset, brk_shellcode, sizeof(brk_shellcode))) {
 		perror("ptrace_write failed");
-	}
+	}*/
 	
 	// 3. Resume the process
 	ptrace(PTRACE_CONT, target_pid, NULL, NULL);
@@ -248,6 +257,15 @@ int main(int argc, const char *argv[]) {
 			}
 			printf("\n");
 		}
+		
+		ptrace(PTRACE_POKETEXT, target_pid, base + offset, (void*)/*(uintptr_t)*/orig);
+		
+		// ptrace_write2(target_pid, base + offset, &orig, sizeof(orig));
+		
+		
+		regs.pc = (uint64_t)base + offset;
+		ptrace(PTRACE_SETREGSET, target_pid, NT_PRSTATUS, &iov);
+		
 		
 		// If needed, resume execution from here
 		ptrace(PTRACE_CONT, target_pid, NULL, NULL);

@@ -17,15 +17,8 @@ int main() {
 	memset(key, 0x69, 32);
 	memset(data, 0x79, 16);
 	
-	// just wait for user enter any key
-	printf("continue?\n");
-	char a;
-	read(0, &a, 1);
-	
 	// run function 
 	DecryptPak(data, 16, key);
 	
-	// complete now!
-	printf ("done!\n");
 	return 0;
 }
