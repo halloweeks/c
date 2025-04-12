@@ -226,10 +226,12 @@ int main(int argc, const char *argv[]) {
 		unsigned long long data_ptr = regs.regs[0];
 		unsigned long long length = regs.regs[1];
 		unsigned long long key_ptr = regs.regs[2];
+		unsigned long long ret_addr = regs.regs[30];
 		
 		printf("x0 (data ptr): 0x%llx\n", data_ptr);
 		printf("x1 (size):     %llu\n",  length);
 		printf("x2 (key ptr):  0x%llx\n", key_ptr);
+		printf("x30 (ret addr): 0x%llx\n", ret_addr);
 		
 		unsigned char data[16];
 		unsigned char key[32];
