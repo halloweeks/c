@@ -417,3 +417,14 @@ unsigned int ZLIB_decompress(unsigned char *InData, unsigned int InSize, unsigne
 	return strm.total_out;
 }
 ```
+
+## simple http api, it's our custom implementation 
+```c
+http_res res = http_request(GET, "http://example.com", NULL);
+	
+if (res.status_code == HTTP_OK) {
+    printf("res: %s\n", res.content);
+}
+	
+http_free(res);
+```
